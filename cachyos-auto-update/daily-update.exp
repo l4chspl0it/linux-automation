@@ -1,0 +1,50 @@
+#!/usr/bin/expect -f
+
+# ==========================================
+# CachyOS Daily Update Automation
+# ==========================================
+
+set timeout -1
+log_user 1
+
+puts ""
+puts "=========================================="
+puts "       CachyOS Daily Update"
+puts "=========================================="
+puts ""
+
+# Start updater
+spawn /usr/bin/arch-update
+
+# Monitor and respond to every update prompt
+expect {
+    -re {Proceed with update\? \[Y/n\]} {
+        send -- "y\r"
+        exp_continue
+    }
+
+    -re {Proceed with installation\? \[Y/n\]} {
+        send -- "y\r"
+        exp_continue
+    }
+
+    -re {Would you like to remove them from the cache now\?} {
+        send -- "y\r"
+        exp_continue
+    }
+
+    -re {Select the service\(s\) to restart.*:} {
+        send -- "0\r"
+        exp_continue
+    }
+
+    -re {Press "enter" to quit} {
+        send -- "\r"
+        exp_continue
+    }
+
+    eof {
+        puts ""
+        puts "CachyOS update process finished."
+    }
+}

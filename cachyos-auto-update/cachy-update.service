@@ -1,0 +1,6 @@
+[Unit]
+Description=Daily CachyOS update
+
+[Service]
+Type=oneshot
+ExecStart=/home/youruser/Documents/Scripts/daily-update.exp
